@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ITS Lapor</title>
+<style>
+:root{--b:#1d4ed8;--bl:#eff6ff;--bd:#dbeafe;--t:#0f172a;--m:#64748b;--g:#e5e7eb;--line:#e2e8f0;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box;margin:0;font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif}
+body{height:100%;background:#1e1e1e;color:var(--t);display:flex;align-items:center;justify-content:center}
+button{font:inherit;cursor:pointer}
+svg{display:block}
+.phone{width:390px;height:min(844px,calc(100% - 20px));background:#fff;border-radius:28px;display:flex;flex-direction:column;overflow:hidden;position:relative}
+@media(max-width:480px){.phone{width:100%;height:100%;border-radius:0}.sb{display:none}}
+.top{background:var(--b);color:#fff}
+.sb{display:flex;justify-content:space-between;padding:10px 22px 0;font-size:13px;font-weight:600}
+.bar{display:flex;align-items:center;gap:12px;height:56px;padding:0 18px}
+.bar h1{font-size:18px;font-weight:700}
+#back{background:0;border:0;color:#fff;display:none}
+main{flex:1;overflow-y:auto}
+.view{display:none}.view.on{display:block}
+.head{display:flex;justify-content:space-between;align-items:baseline;padding:20px 18px 14px}
+.head h2{font-size:18px}.head span{font-size:13px;color:var(--m)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.tile{aspect-ratio:1;background:var(--g);border:0;padding:0;position:relative;display:flex;align-items:center;justify-content:center;color:#9ca3af;overflow:hidden}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.chip{position:absolute;top:6px;left:6px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;z-index:1}
+.s-Menunggu{background:#f3f4f6;color:#4b5563}.s-DalamProses{background:var(--bl);color:var(--b)}.s-Selesai{background:#dcfce7;color:#15803d}
+.note{padding:18px;font-size:13px;color:var(--m);line-height:1.6}.note small{font-size:12px;display:block}
+.hero{aspect-ratio:390/265;background:var(--g);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#6b7280;font-size:13px;overflow:hidden}
+.hero img{width:100%;height:100%;object-fit:cover}
+.body{padding:18px}
+.meta{display:flex;justify-content:space-between;align-items:center}
+.pill{font-size:12px;font-weight:700;padding:6px 12px;border-radius:99px}
+.id{font-size:12px;color:var(--m)}
+.body h3{font-size:22px;margin:14px 0 10px}
+.row{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--m);margin-bottom:6px}
+.desc{font-size:14px;line-height:1.6;margin:12px 0 16px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.body h4{font-size:15px;margin-bottom:14px}
+.st{display:flex;gap:12px;margin-bottom:14px}
+.dot{width:26px;height:26px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--bl);color:var(--b)}
+.dot.act{background:var(--b)}.dot.act i{width:8px;height:8px;border-radius:50%;background:#fff}
+.dot.pen i{width:6px;height:6px;border-radius:50%;background:#bfdbfe}
+.st b{font-size:14px;display:block}.st small{font-size:12px;color:var(--m)}.st.pen b{color:var(--m);font-weight:600}
+form{padding:16px 18px 24px}
+.sub{font-size:14px;color:var(--m);margin-bottom:14px}
+.up{width:100%;border:0;background:var(--g);border-radius:16px;height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#6b7280;overflow:hidden;padding:0;position:relative}
+.up b{color:var(--b);font-size:14px}.up small{font-size:12px}
+.up img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.up .re{position:absolute;bottom:8px;right:8px;background:rgba(15,23,42,.7);color:#fff;font-size:12px;padding:5px 10px;border-radius:99px}
+label{display:block;font-size:13px;font-weight:700;margin:16px 0 6px}
+input,select,textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:13px 12px;font-size:14px;color:var(--t);background:#fff;outline:0}
+input:focus,select:focus,textarea:focus{border-color:var(--b)}
+textarea{min-height:92px;resize:vertical}
+.send{width:100%;border:0;background:var(--b);color:#fff;border-radius:14px;height:52px;font-size:16px;font-weight:700;margin-top:18px}
+.err{display:none;color:#b91c1c;font-size:13px;margin-top:12px}
+.help{text-align:center;font-size:12px;color:var(--m);margin-top:12px}
+nav{display:flex;border-top:1px solid var(--bd);height:64px;background:#fff}
+nav button{flex:1;border:0;background:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:600;color:var(--m)}
+nav button.on{color:var(--b)}
+.pl{width:26px;height:26px;border-radius:8px;background:var(--b);color:#fff;display:flex;align-items:center;justify-content:center}
+.ov{position:absolute;inset:0;z-index:5;display:none}.ov.on{display:flex}
+#sheet{background:rgba(15,23,42,.5);align-items:flex-end}
+#sheet div{background:#fff;width:100%;border-radius:20px 20px 0 0;padding:18px;display:flex;flex-direction:column;gap:10px}
+#sheet button{border:0;background:var(--bl);color:var(--b);font-weight:700;font-size:15px;padding:14px;border-radius:12px}
+#sheet button.c{background:0;color:var(--m)}
+#cam{background:#0f172a;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:16px;z-index:6}
+#cam video{width:100%;max-height:60%;border-radius:16px;background:#000;object-fit:cover}
+#camMsg{color:#fff;font-size:14px;text-align:center}
+.shot{width:68px;height:68px;border-radius:50%;border:5px solid #fff;background:var(--b)}
+.x{background:0;border:0;color:#fff;font-size:15px}
+#toast{position:absolute;left:50%;bottom:80px;transform:translateX(-50%) translateY(100px);background:var(--t);color:#fff;padding:11px 18px;border-radius:99px;font-size:13px;transition:transform .3s;z-index:9;white-space:nowrap}
+#toast.on{transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="top">
+    <div class="sb"><span id="clock">9:41</span><span>ITS</span></div>
+    <div class="bar"><button id="back" aria-label="Kembali"></button><h1 id="title">ITS Lapor</h1></div>
+  </div>
+  <main id="main">
+    <section class="view on" id="home">
+      <div class="head"><h2>Laporan Saya</h2><span id="cnt"></span></div>
+      <div class="grid" id="grid"></div>
+      <div class="note">Ketuk foto untuk melihat detail dan progres laporan.<small id="sampleNote"></small></div>
+    </section>
+
+    <section class="view" id="detail"></section>
+
+    <section class="view" id="add">
+      <form id="form" novalidate>
+        <p class="sub">Bantu kami menjaga fasilitas kampus.</p>
+        <button type="button" class="up" id="up"></button>
+        <input type="file" id="file" accept="image/png,image/jpeg" hidden>
+        <label for="ttl">Judul masalah</label>
+        <input id="ttl" placeholder="Contoh: AC ruang baca tidak dingin">
+        <label for="loc">Lokasi</label>
+        <input id="loc" placeholder="Gedung, lantai, atau nama ruangan">
+        <label for="cat">Kategori</label>
+        <select id="cat"><option value="">Pilih kategori fasilitas</option><option>Furnitur rusak</option><option>Pencahayaan</option><option>Kebersihan</option><option>AC &amp; ventilasi</option><option>Air &amp; sanitasi</option><option>Lainnya</option></select>
+        <label for="dsc">Deskripsi</label>
+        <textarea id="dsc" placeholder="Jelaskan kondisi fasilitas dan masalah yang kamu temukan..."></textarea>
+        <p class="err" id="err"></p>
+        <button type="submit" class="send">Kirim Laporan</button>
+        <p class="help">Pastikan lokasi dan informasi laporan sudah benar.</p>
+      </form>
+    </section>
+  </main>
+
+  <nav id="nav">
+    <button data-go="home" id="nHome"></button>
+    <button data-go="add" id="nAdd"></button>
+  </nav>
+
+  <div class="ov" id="sheet"><div>
+    <button id="sCam">Ambil foto dengan kamera</button>
+    <button id="sFile">Pilih dari galeri / file</button>
+    <button class="c" id="sX">Batal</button>
+  </div></div>
+  <div class="ov" id="cam">
+    <video id="vid" autoplay playsinline muted></video>
+    <p id="camMsg"></p>
+    <button class="shot" id="snap" aria-label="Ambil foto"></button>
+    <button class="x" id="camX">Batal</button>
+  </div>
+  <div id="toast"></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const ic=(p,s=24)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const P={home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/>',plus:'<path d="M12 5v14M5 12h14"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',pin:'<path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>',cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',back:'<path d="M19 12H5M11 6l-6 6 6 6"/>',check:'<path d="M5 12l4 4 10-10"/>'};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const MON=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const MONL=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const short=t=>{const d=new Date(t);return `${d.getDate()} ${MON[d.getMonth()]}, ${pad(d.getHours())}.${pad(d.getMinutes())}`};
+const long=t=>{const d=new Date(t);return `${d.getDate()} ${MONL[d.getMonth()]} ${d.getFullYear()}, ${pad(d.getHours())}.${pad(d.getMinutes())}`};
+const D=(d,h,m)=>new Date(2026,9,d,h,m).getTime();
+
+const KEY='its-lapor-v2';let mem=null;
+function load(){try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r)}catch(e){}return mem}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(reports))}catch(e){mem=reports;toast('Penyimpanan penuh, data hanya sementara')}}
+let reports=load()||[
+ {n:24,sample:1,title:'AC ruang baca tidak dingin',loc:'Perpustakaan ITS \u00b7 Lantai 2',cat:'AC & ventilasi',desc:'AC di area ruang baca menyala, tetapi tidak terasa dingin. Ruangan terasa panas saat digunakan belajar.',status:'Dalam Proses',t:[D(7,9,15),D(8,10,0)],photo:null},
+ {n:23,sample:1,title:'Lampu koridor mati',loc:'Gedung Teknik Informatika \u00b7 Lt. 2',cat:'Pencahayaan',desc:'Beberapa lampu di koridor tidak menyala sehingga area menjadi gelap saat sore hari.',status:'Menunggu',t:[D(6,14,30)],photo:null},
+ {n:22,sample:1,title:'Sampah menumpuk di taman',loc:'Taman Teknik',cat:'Kebersihan',desc:'Tempat sampah penuh dan sampah berserakan di sekitar bangku taman.',status:'Selesai',t:[D(1,8,0),D(2,9,30),D(3,13,0)],photo:null}
+];
+let photo=null,cur='home';
+const cls=s=>'s-'+s.replace(' ','');
+
+function icons(){
+  $('#back').innerHTML=ic(P.back);
+  $('#nHome').innerHTML=ic(P.home)+'<span>Home</span>';
+  $('#nAdd').innerHTML='<span class="pl">'+ic(P.plus,18)+'</span><span>Tambah</span>';
+  setUp();
+}
+function setUp(){
+  const u=$('#up');
+  u.innerHTML=photo?`<img src="${photo}" alt="Foto"><span class="re">Ganti foto</span>`:`${ic(P.cam,30)}<b>Tambah foto fasilitas</b><small>JPG atau PNG \u00b7 maksimal 5 MB</small>`;
+}
+function go(v,id){
+  cur=v;
+  document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id===v));
+  $('#title').textContent={home:'ITS Lapor',detail:'Detail Laporan',add:'Laporan Baru'}[v];
+  $('#back').style.display=v==='detail'?'block':'none';
+  $('#nav').style.display=v==='detail'?'none':'flex';
+  $('#nHome').classList.toggle('on',v==='home');$('#nAdd').classList.toggle('on',v==='add');
+  $('#main').scrollTop=0;
+  if(v==='home')renderHome();
+  if(v==='detail')renderDetail(id);
+}
+function renderHome(){
+  const g=[...reports].sort((a,b)=>b.n-a.n);
+  $('#cnt').textContent=g.length+' laporan';
+  $('#grid').innerHTML=g.map(r=>`<button class="tile" data-id="${r.n}" aria-label="${esc(r.title)}"><span class="chip ${cls(r.status)}">${r.status==='Selesai'?'Selesai':r.status}</span>${r.photo?`<img src="${r.photo}" alt="">`:ic(P.cam,34)}</button>`).join('')||'';
+  $('#sampleNote').textContent=g.some(r=>r.sample)?'Laporan bertanda "Contoh" adalah data contoh.':'';
+  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>go('detail',+b.dataset.id));
+}
+function step(state,title,desc){
+  const d=state==='done'?`<div class="dot">${ic(P.check,14)}</div>`:state==='act'?'<div class="dot act"><i></i></div>':'<div class="dot pen"><i></i></div>';
+  return `<div class="st ${state==='pen'?'pen':''}">${d}<div><b>${title}</b><small>${desc}</small></div></div>`;
+}
+function renderDetail(n){
+  const r=reports.find(x=>x.n===n);if(!r)return go('home');
+  const s=r.status,t=r.t||[];
+  const s1=s==='Menunggu'?'act':'done',s2=s==='Menunggu'?'pen':s==='Dalam Proses'?'act':'done',s3=s==='Selesai'?'done':'pen';
+  $('#detail').innerHTML=`<div class="hero">${r.photo?`<img src="${r.photo}" alt="Foto fasilitas">`:ic(P.cam,34)+'<span>'+(r.sample?'Foto fasilitas \u00b7 data contoh':'Tanpa foto')+'</span>'}</div>
+  <div class="body"><div class="meta"><span class="pill ${cls(s)}">${s}</span><span class="id">${r.sample?'Contoh ':''}#LP-${pad(r.n).padStart(3,'0')}</span></div>
+  <h3>${esc(r.title)}</h3>
+  <div class="row">${ic(P.pin,16)}<span>${esc(r.loc)} &middot; ${esc(r.cat)}</span></div>
+  <div class="row">${ic(P.cal,16)}<span>Dilaporkan ${long(t[0]||Date.now())}</span></div>
+  <p class="desc">${esc(r.desc)}</p>
+  <h4>Progres Penyelesaian</h4>
+  ${step(s1,'Laporan diterima',`${t[0]?short(t[0])+' \u00b7 ':''}Laporan tercatat.`)}
+  ${step(s2,'Dalam pemeriksaan',s2==='pen'?'Menunggu pemeriksaan teknisi.':`${t[1]?short(t[1])+' \u00b7 ':''}Teknisi memeriksa fasilitas.`)}
+  ${step(s3,'Perbaikan selesai',s3==='done'?`${t[2]?short(t[2])+' \u00b7 ':''}Masalah telah diperbaiki.`:'Menunggu hasil pemeriksaan teknisi.')}</div>`;
+}
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2400)}
+
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+$('#back').onclick=()=>go('home');
+
+/* foto */
+function shrink(w,h,draw){const sc=Math.min(1,720/w),c=document.createElement('canvas');c.width=Math.round(w*sc);c.height=Math.round(h*sc);draw(c.getContext('2d'),c.width,c.height);return c.toDataURL('image/jpeg',.7)}
+$('#up').onclick=()=>{ if(photo){photo=null;setUp()} $('#sheet').classList.add('on')};
+$('#sX').onclick=()=>$('#sheet').classList.remove('on');
+$('#sFile').onclick=()=>{$('#sheet').classList.remove('on');$('#file').click()};
+$('#file').onchange=e=>{
+  const f=e.target.files[0];e.target.value='';if(!f)return;
+  if(f.size>5*1024*1024)return toast('Ukuran foto maksimal 5 MB');
+  const fr=new FileReader();
+  fr.onload=()=>{const im=new Image();im.onload=()=>{photo=shrink(im.width,im.height,(x,w,h)=>x.drawImage(im,0,0,w,h));setUp()};im.src=fr.result};
+  fr.readAsDataURL(f);
+};
+let stream=null;
+function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}$('#cam').classList.remove('on')}
+$('#sCam').onclick=async()=>{
+  $('#sheet').classList.remove('on');$('#cam').classList.add('on');
+  $('#camMsg').textContent='Meminta akses kamera...';$('#snap').style.display='none';
+  try{
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw 0;
+    try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false})}
+    catch(e){stream=await navigator.mediaDevices.getUserMedia({video:true,audio:false})}
+    $('#vid').srcObject=stream;$('#camMsg').textContent='Arahkan kamera ke masalah, lalu tekan tombol bulat.';$('#snap').style.display='block';
+  }catch(e){$('#camMsg').textContent='Kamera tidak bisa diakses. Izinkan kamera di browser, atau pilih foto dari galeri / file.'}
+};
+$('#snap').onclick=()=>{const v=$('#vid');if(!v.videoWidth)return;photo=shrink(v.videoWidth,v.videoHeight,(x,w,h)=>x.drawImage(v,0,0,w,h));setUp();stopCam();toast('Foto diambil')};
+$('#camX').onclick=stopCam;
+
+/* kirim */
+$('#form').onsubmit=e=>{
+  e.preventDefault();
+  const title=$('#ttl').value.trim(),loc=$('#loc').value.trim(),cat=$('#cat').value,desc=$('#dsc').value.trim(),err=$('#err');
+  const m=!title?'Isi judul masalah.':!loc?'Isi lokasi.':!cat?'Pilih kategori.':!desc?'Isi deskripsi.':'';
+  if(m){err.textContent=m;err.style.display='block';return}
+  err.style.display='none';
+  const n=Math.max(0,...reports.map(r=>r.n))+1;
+  reports.push({n,title,loc,cat,desc,status:'Menunggu',t:[Date.now()],photo});
+  save();
+  ['#ttl','#loc','#dsc'].forEach(s=>$(s).value='');$('#cat').value='';photo=null;setUp();
+  go('home');toast('Laporan terkirim');
+};
+const tick=()=>{const d=new Date();$('#clock').textContent=d.getHours()+':'+pad(d.getMinutes())};tick();setInterval(tick,30000);
+icons();go('home');
+</script>
+</body>
+</html>
